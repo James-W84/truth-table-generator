@@ -132,21 +132,35 @@ function App() {
     const outputs = header.slice(numInputs);
     let validOutputs = true;
 
-    const checkBrackets = (arr) => {
+    const checkBrackets = (arr, message) => {
       let val = 0;
       arr.forEach((el) => {
         if (el === "(") val++;
         else if (el === ")") val--;
-        if (val < 0) return false;
+        if (val < 0) {
+          message.msg = "mismatched brackets";
+          return false;
+        }
       });
+
       return val === 0;
     };
 
-    const checkOperators = (arr) => {
+    const checkOperators = (arr, message) => {
       let regex = new RegExp("[¬∧∨→↔]");
-      if (regex.test(arr[arr.length - 1])) return false;
+      if (regex.test(arr[arr.length - 1])) {
+        message.msg = "last character cannot be an operator";
+        return false;
+      }
       for (let i = 0; i < arr.length - 1; i++) {
-        if (regex.test(arr[i]) && regex.test(arr[i + 1])) return false;
+        if (
+          regex.test(arr[i]) &&
+          regex.test(arr[i + 1]) &&
+          !(arr[i + 1] === "¬" && arr[i] !== "¬")
+        ) {
+          message.msg = "operator must be followed by a variable input";
+          return false;
+        }
       }
       return true;
     };
@@ -171,7 +185,6 @@ function App() {
     };
 
     const evaluate = (arg) => {
-      console.log(arg);
       if (arg.length === 1) {
         return arg[0];
       } else {
@@ -220,14 +233,18 @@ function App() {
       }
     };
 
-    outputs.forEach((output) => {
+    let message = { msg: "invalid characters in statements" };
+
+    outputs.forEach((output, index) => {
+      outputs[index] = output.replaceAll(" ", "");
       let regex = new RegExp("[^" + inputs.join("") + "¬∧∨→↔()" + "]").test(
         output
       );
+
       if (
         regex ||
-        !checkBrackets(Array.from(output)) ||
-        !checkOperators(Array.from(output))
+        !checkBrackets(Array.from(output), message) ||
+        !checkOperators(Array.from(output), message)
       )
         validOutputs = false;
     });
@@ -235,7 +252,8 @@ function App() {
     if (!validOutputs) {
       return (
         <section className="refresh">
-          <h1>invalid argument</h1>
+          <h1>invalid argument:</h1>
+          <p>{message.msg}</p>
           <button
             className="refresh-btn"
             onClick={() => {
