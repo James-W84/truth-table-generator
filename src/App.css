@@ -1,38 +1,137 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f3f6f9;
+  padding: 5%;
+  
+}
+
+h1 {
+  font-size: 2.3rem;
   text-align: center;
+  text-transform: capitalize;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.container, .refresh {
+  background-color: #ffffff;
+  border-radius: 6%;
+  height: fit-content;
+  margin: auto;
+  min-height: 70vh;
+  min-width: 300px;
+  padding: 5%;
+  width: 30vw;
+  z-index: -1;
 }
 
-.App-link {
-  color: #61dafb;
+.truth-table-form {
+  line-height: 0.3rem;
+  margin: 3%;
+  padding: 5%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input-group {
+  margin: 0.8rem auto;
+  position: relative;
+}
+
+.label-container {
+  display: inline-block;
+  line-height: normal;
+  text-align: left;
+  width: 48%;
+}
+
+.truth-table-form label {
+  font-size: 1.2rem;
+  padding-bottom: 1.3rem;
+  width: 60%;
+}
+
+.truth-table-form input {
+  border: 1px solid #999999;
+  border-radius: 0.3rem;
+  font-size: 1.2rem;
+  height: 1.5rem;
+  margin-top: 0;
+  padding: 3%;
+  width: 45%;
+}
+
+.btn-group {
+  background-color: #faf0e6;
+  border-bottom-left-radius: 10%;
+  border-bottom-right-radius: 10%;
+  column-gap: 0.6rem;
+  display: inline-grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 3%;
+  position: absolute;
+  row-gap: 0.6rem;
+  top: 3rem;
+  width: 45%;
+  z-index: 2;
+}
+
+.btn {
+  border: 1px solid black;
+  border-radius: 20%;
+  font-size: 1.5rem;
+  height: 2rem;
+  text-align: center;
+  width: 2rem;
+}
+
+.btn:hover, .submit-btn:hover, .refresh-btn:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}
+
+.submit-container {
+  margin-top: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.submit-btn, .refresh-btn {
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  padding: 0.3rem 0.5rem;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.3rem 1rem;
+}
+
+#truth-table {
+  /* height: 90wh; */
+  margin: auto;
+  /* width: 90vw; */
+}
+
+#truth-table tr:nth-child(2n+2) {
+  background-color: #D6EEEE;
+}
+
+.refresh {
+  line-height: 6rem;
+  text-align: center;
 }
