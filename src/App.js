@@ -184,34 +184,40 @@ function App() {
       return idx;
     };
 
+    let a = 3;
+
     const evaluate = (arg) => {
+      // console.log(arg.join(", "));
       if (arg.length === 1) {
         return arg[0];
       } else {
         if (arg.indexOf("(") > -1) {
           let idx = arg.indexOf("(");
           let temp = arg.slice(0, idx);
+
           temp.push(evaluate(arg.slice(idx + 1, findMatchingBracket(arg))));
-          temp.concat(arg.slice(findMatchingBracket(arg) + 1));
+          console.log(arg.slice(findMatchingBracket(arg) + 1));
+          temp = temp.concat(arg.slice(findMatchingBracket(arg) + 1));
+          console.log(Array.isArray(temp));
           return evaluate(temp);
         } else if (arg.indexOf("¬") > -1) {
           let idx = arg.indexOf("¬");
           let temp = [];
-          if (idx > 0) temp.concat(arg.slice(0, idx));
+          if (idx > 0) temp = temp.concat(arg.slice(0, idx));
           temp.push(!arg[idx + 1]);
-          temp.concat(arg.slice(idx + 2));
+          temp = temp.concat(arg.slice(idx + 2));
           return evaluate(temp);
         } else if (arg.indexOf("∧") > -1) {
           let idx = arg.indexOf("∧");
           let temp = arg.slice(0, idx - 1);
           temp.push(arg[idx - 1] && arg[idx + 1]);
-          temp.concat(arg.slice(idx + 2));
+          temp = temp.concat(arg.slice(idx + 2));
           return evaluate(temp);
         } else if (arg.indexOf("∨") > -1) {
           let idx = arg.indexOf("∨");
           let temp = arg.slice(0, idx - 1);
           temp.push(arg[idx - 1] || arg[idx + 1]);
-          temp.concat(arg.slice(idx + 2));
+          temp = temp.concat(arg.slice(idx + 2));
           return evaluate(temp);
         } else if (arg.indexOf("→") > -1) {
           let idx = arg.indexOf("→");
@@ -221,23 +227,22 @@ function App() {
           let addition = false;
           if (!input1 || input2) addition = true;
           temp.push(addition);
-          temp.concat(arg.slice(idx + 2));
+          temp = temp.concat(arg.slice(idx + 2));
           return evaluate(temp);
         } else if (arg.indexOf("↔") > -1) {
           let idx = arg.indexOf("↔");
           let temp = arg.slice(0, idx - 1);
           temp.push(arg[idx - 1] === arg[idx + 1]);
-          temp.concat(arg.slice(idx + 2));
+          temp = temp.concat(arg.slice(idx + 2));
           return evaluate(temp);
         }
       }
     };
 
     let message = { msg: "invalid characters in statements" };
-
     outputs.forEach((output, index) => {
       outputs[index] = output.replaceAll(" ", "");
-      let regex = new RegExp("[^" + inputs.join("") + "¬∧∨→↔()" + "]").test(
+      let regex = new RegExp("[^" + inputs.join("") + "¬∧∨→↔() " + "]").test(
         output
       );
 
@@ -301,6 +306,7 @@ function App() {
           }
         });
         dataset[i].push(evaluate(temp) ? "T" : "F");
+        console.log("finished row");
       }
     });
 
